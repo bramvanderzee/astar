@@ -81,12 +81,8 @@ if end not in closed_nodes:
     print('No path found.')
 else:
     closed_nodes.sort(reverse=True, key=sort_f)
-    dirs = []
     for i in range(1, len(closed_nodes)):
         n2, n1 = closed_nodes[i-1], closed_nodes[i]
         diff = (n1.x - n2.x, n1.y - n2.y)
-        dirs.append(directions[diff])
-    
-    for d in dirs:
-        print(d, end=' ')
+        print(directions[diff], end=' ')
     print()
