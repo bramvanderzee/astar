@@ -1,16 +1,18 @@
 import sys
 from node import Node
 
-use_diagonal = False
+use_diagonal = True
 
-N = (0, -1)
-E = (1, 0)
-S = (0, 1)
-W = (-1, 0)
-NE = (1, -1)
-SE = (1, 1)
-SW = (-1, 1)
-NW = (-1, -1)
+directions = {
+    (0, -1): 'N',
+    (1, 0): 'E',
+    (0, 1): 'S',
+    (-1, 0): 'W',
+    (1, -1): 'NE',
+    (1, 1): 'SE',
+    (-1, 1): 'SW',
+    (-1, -1): 'NW'
+}
 
 def sort_f(n):
     return n.f
@@ -78,5 +80,13 @@ while len(open_nodes) > 0:
 if end not in closed_nodes:
     print('No path found.')
 else:
-    for node in closed_nodes:
-        print(node)
+    closed_nodes.sort(reverse=True, key=sort_f)
+    dirs = []
+    for i in range(1, len(closed_nodes)):
+        n2, n1 = closed_nodes[i-1], closed_nodes[i]
+        diff = (n1.x - n2.x, n1.y - n2.y)
+        dirs.append(directions[diff])
+    
+    for d in dirs:
+        print(d, end=' ')
+    print()
