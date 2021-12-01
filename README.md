@@ -11,3 +11,8 @@ The algorithm will output a set of cardinal directions (N(orth) E(ast) S(outh) W
 ### Use
 
 `python3 astar.py input.txt 1`
+
+### TODO:
+
+- Generate random
+- test.sh
