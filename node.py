@@ -10,6 +10,9 @@ class Node:
     
     def add_adj(self, nodes):
         self.adj = nodes
+
+    def __lt__(self, other):
+        return self.f < other.f
         
     def __str__(self) -> str:
         return str([self.c, (self.x, self.y), self.f, len(self.adj)])

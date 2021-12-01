@@ -14,9 +14,6 @@ directions = {
     (-1, -1): 'NW'
 }
 
-def sort_f(n):
-    return n.f
-
 def find_distance(to_node, from_node, nodes) -> int:
     return 0
 
@@ -70,7 +67,7 @@ open_nodes = [start]
 closed_nodes = []
 
 while len(open_nodes) > 0:
-    open_nodes.sort(key=sort_f)
+    open_nodes.sort()
     node = open_nodes.pop(0)
     closed_nodes.append(node)
     if node == end:
@@ -80,7 +77,7 @@ while len(open_nodes) > 0:
 if end not in closed_nodes:
     print('No path found.')
 else:
-    closed_nodes.sort(reverse=True, key=sort_f)
+    closed_nodes.sort(reverse=True)
     for i in range(1, len(closed_nodes)):
         n2, n1 = closed_nodes[i-1], closed_nodes[i]
         diff = (n1.x - n2.x, n1.y - n2.y)
