@@ -50,6 +50,7 @@ with open(fn) as f:
         xc = 0
         yc += 1
 
+# determine heuristic (pythagoras) max to determine freedom of movement
 max_heuristic = 1
 if use_diagonal:
     max_heuristic = 2
@@ -74,6 +75,7 @@ while len(open_nodes) > 0:
         break
     open_nodes.extend([n for n in node.adj if n not in closed_nodes and n not in open_nodes])
     
+# print results
 if end not in closed_nodes:
     print('No path found.')
 else:
