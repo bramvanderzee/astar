@@ -26,7 +26,7 @@ fn = 'input.txt'
 if len(sys.argv) > 2:
     fn = sys.argv[1]
     use_diagonal = True if sys.argv[2] == '1' else False
-    print(use_diagonal)
+    print("Using diagonals:", use_diagonal)
 
 if len(sys.argv) > 1:
     fn = sys.argv[1]
@@ -79,7 +79,6 @@ while len(open_nodes) > 0:
 if end not in closed_nodes:
     print('No path found.')
 else:
-    closed_nodes.sort(reverse=True)
     for i in range(1, len(closed_nodes)):
         n2, n1 = closed_nodes[i-1], closed_nodes[i]
         diff = (n1.x - n2.x, n1.y - n2.y)
