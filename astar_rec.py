@@ -1,5 +1,6 @@
 import sys
 from node import Node
+import heapq
 
 use_diagonal = True
 
@@ -13,9 +14,6 @@ directions = {
     (-1, 1): 'SW',
     (-1, -1): 'NW'
 }
-
-def find_distance(to_node, from_node, nodes) -> int:
-    return 0
 
 def find_heuristic(to_node, from_node) -> int: # a^2 + b^2
     dx = to_node.x - from_node.x
@@ -58,29 +56,37 @@ if use_diagonal:
 # Expand nodes list with additional info
 for node in nodes:
     if node.c != '#':
-        G = find_distance(start, node, nodes) # do something with this later
         H = find_heuristic(end, node)
         adj = [n for n in nodes if find_heuristic(n, node) <= max_heuristic and n != node and n.c != '#']
-        node.add_adj(adj)
-        node.add_cost(G, H)
-    
-open_nodes = [start]
-closed_nodes = []
+        node.add_adj(set(adj))
+        node.H = H
 
-while len(open_nodes) > 0:
-    open_nodes.sort()
-    node = open_nodes.pop(0)
-    closed_nodes.append(node)
+def print_path(p: list):
+    p.sort(key=lambda n: n.G)
+    # print results
+    if end not in p:
+        print('No path found.')
+    else:
+        for i in range(1, len(p)):
+            n2, n1 = p[i-1], p[i]
+            diff = (n1.x - n2.x, n1.y - n2.y)
+            print(directions[diff], end=' ')
+        print()
+
+def step(state):
+    node, path, end = state
+    new_path = set(path)
+    new_path.add(node)
+    if len(path) < node.G:
+        node.G = len(new_path)
+    else:
+        return
     if node == end:
-        break
-    open_nodes.extend([n for n in node.adj if n not in closed_nodes and n not in open_nodes])
-    
-# print results
-if end not in closed_nodes:
-    print('No path found.')
-else:
-    for i in range(1, len(closed_nodes)):
-        n2, n1 = closed_nodes[i-1], closed_nodes[i]
-        diff = (n1.x - n2.x, n1.y - n2.y)
-        print(directions[diff], end=' ')
-    print()
+        print_path(list(new_path))
+        sys.exit()
+    for nxt in sorted(node.adj - new_path):
+        step((nxt, new_path, end))
+
+state = (start, set(), end) # current node, path taken, goal
+step(state)
+
